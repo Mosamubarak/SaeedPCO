@@ -1,48 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard Page</title>
-
-
-    <div style= "display: flex ;">
-      <a style="display: contents;" href="https://hz.nl/"><img style="width: 100px;" src="res/hzpic.png"></img></a>
-      <h1 style="color: rgb(33, 145, 145); font-family: Impact; margin-left: 180px;">SAEED Dashboard</h1>
-      <img style="margin-left: auto; width: 500px;" src="res/hzbannerpic.png"></img>
-    </div>
-
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dating Reply Generator</title>
     <style>
-      .head{
-        font-size: 70px;
-        font-weight: bold;
+      :root {
+        --bg: #10131a;
+        --card: #171c26;
+        --muted: #9ea8bd;
+        --text: #eef3ff;
+        --accent: #5b8cff;
+        --accent-2: #ff5c9f;
+        --ok: #44d08a;
       }
-      body{
-        background-color: rgb(222, 222, 191);
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: linear-gradient(140deg, #0d1017, #1a1f2d 45%, #121827);
+        color: var(--text);
       }
+
+      .container { max-width: 980px; margin: 0 auto; padding: 24px; }
+      .nav {
+        display: flex; align-items: center; gap: 14px;
+        background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px; padding: 14px 18px;
+      }
+      .nav a { color: var(--text); text-decoration: none; opacity: .9; }
+
+      .hero { margin: 24px 0; }
+      .hero h1 { margin: 0; font-size: 2rem; }
+      .hero p { color: var(--muted); }
+
+      .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+      @media(min-width: 850px){ .grid { grid-template-columns: 1fr 1fr; } }
+
+      .card {
+        background: var(--card);
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      label { display: block; font-weight: 600; margin-bottom: 8px; }
+      input[type="file"], textarea, select {
+        width: 100%; border-radius: 12px; border: 1px solid #30384d;
+        background: #0f1420; color: var(--text); padding: 12px;
+      }
+      textarea { min-height: 120px; resize: vertical; }
+
+      .modes { display: grid; gap: 8px; }
+      .mode { display: flex; align-items: center; gap: 10px; padding: 10px; background: #111726; border-radius: 12px; }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+      button {
+        border: 0; border-radius: 12px; padding: 10px 16px; cursor: pointer;
+        font-weight: 700;
+      }
+      .primary { background: linear-gradient(90deg,var(--accent),#7198ff); color: #fff; }
+      .ghost { background: #232c40; color: #d7e2ff; }
+
+      .reply {
+        background: #111726; border: 1px solid #2a3350;
+        border-radius: 12px; padding: 12px; margin-top: 10px;
+      }
+      .reply small { color: var(--muted); }
+      .ok { color: var(--ok); font-size: .9rem; }
+      .warn { color: #ffcf70; font-size: .88rem; }
     </style>
   </head>
-
-
   <body>
-    
+    <div class="container">
+      <nav class="nav">
+        <strong>💬 Dating Reply AI</strong>
+        <a href="index.html">Homepage</a>
+        <a href="faq.html">FAQ</a>
+        <a href="blog.html">Blogs</a>
+        <a href="profile.html">Profile</a>
+      </nav>
 
-    <div>
-        <ul style="display: inline-block;">
-          <a href="index.html"><li>Homepage</li></a>
-          <a href="faq.html"><li>FAQ</li></a>
-          <a href="blog.html"><li>Blogs</li></a>
-          <a href="profile.html"><li>Profile</li></a>
-          <a href="dahsboard.html"><li>Dashboard</li></a>
-       </ul>
+      <section class="hero">
+        <h1>Screenshot ➜ Reply in 1 klik</h1>
+        <p>Upload je screenshot, kies je mood en krijg direct 3 reply-opties.</p>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <label for="file">1) Upload screenshot</label>
+          <input id="file" type="file" accept="image/*" />
+          <p class="warn">Prototype: OCR is gesimuleerd. Plak/controleer tekst hieronder.</p>
+
+          <label for="chatText">2) Chat tekst</label>
+          <textarea id="chatText" placeholder="Bijv: 'Hey jij bent cute, wat doe je vanavond?'..."></textarea>
+
+          <label>3) Mood</label>
+          <div class="modes">
+            <label class="mode"><input type="radio" name="mode" value="standard" checked /> Standard (normaal)</label>
+            <label class="mode"><input type="radio" name="mode" value="spicy" /> Spicy (speels)</label>
+            <label class="mode"><input type="radio" name="mode" value="hot" /> Hot (volwassen/direct)</label>
+          </div>
+
+          <label for="goal" style="margin-top:10px;">4) Doel</label>
+          <select id="goal">
+            <option value="date">Date fixen</option>
+            <option value="flirt">Meer flirt</option>
+            <option value="mysterious">Mysterieus blijven</option>
+          </select>
+
+          <div class="actions">
+            <button class="primary" id="generateBtn">Genereer replies</button>
+            <button class="ghost" id="clearBtn">Reset</button>
+          </div>
+          <p id="status" class="ok"></p>
+        </section>
+
+        <section class="card">
+          <h3>Resultaten</h3>
+          <div id="results"></div>
+        </section>
       </div>
+    </div>
 
+    <script>
+      const generateBtn = document.getElementById('generateBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const chatText = document.getElementById('chatText');
+      const results = document.getElementById('results');
+      const status = document.getElementById('status');
+
+      function pickMode() {
+        return document.querySelector('input[name="mode"]:checked').value;
+      }
+
+      function templates(mode, goal, incoming) {
+        const goalMap = {
+          date: "een concrete date voorstellen",
+          flirt: "de flirt sterker maken",
+          mysterious: "interesse tonen maar mysterieus blijven"
+        };
+
+        const cleanIncoming = incoming.trim().replace(/\s+/g, ' ');
+
+        const base = [
+          `Nice 😌 ${cleanIncoming ? "Over jouw bericht: '" + cleanIncoming.slice(0, 60) + "...'" : ""} Ik wil ${goalMap[goal]}.`,
+          `Haha ik voel je vibe 😉 ${goal === 'date' ? 'Zullen we gewoon een drankje doen deze week?' : 'Vertel, wat is je beste move?'} `,
+          `${goal === 'mysterious' ? 'Misschien vertel ik dat later... 👀' : 'Ik ben benieuwd naar jou, verras me.'}`
+        ];
+
+        if (mode === 'spicy') {
+          return [
+            `Oeh, jij speelt dit goed 😏 ${goal === 'date' ? 'Donderdag 20:00, 1 drankje, deal?' : 'Ik wil zien of je net zo leuk bent in het echt.'}`,
+            `Pas op, zo maak je me nieuwsgierig 🔥 ${goal === 'flirt' ? 'Ga je me laten blozen of alleen praten?' : 'Ik geef je 1 kans om me echt te verrassen.'}`,
+            `Ik hou van deze energie. ${goal === 'mysterious' ? 'Misschien krijg je straks meer van me...' : 'Wanneer gaan we dit testen buiten de chat?'}`
+          ];
+        }
+
+        if (mode === 'hot') {
+          return [
+            `Mmm, die toon staat je goed. Ik wil dit gesprek vanavond verder in het echt 😉`,
+            `Jij maakt het lastig om braaf te blijven 😈 ${goal === 'date' ? 'Kies een plek, ik kies het moment.' : 'Laat me zien hoeveel lef je echt hebt.'}`,
+            `Ik ben in voor een volwassen vibe, maar alleen als de klik echt goed is. Wanneer zie ik je?`
+          ];
+        }
+
+        return base;
+      }
+
+      function renderReplies(list, mode) {
+        results.innerHTML = '';
+        list.forEach((txt, i) => {
+          const div = document.createElement('div');
+          div.className = 'reply';
+          div.innerHTML = `<small>Optie ${i + 1} • ${mode}</small><p>${txt}</p><button class="ghost" data-copy="${encodeURIComponent(txt)}">Copy</button>`;
+          results.appendChild(div);
+        });
+      }
+
+      generateBtn.addEventListener('click', () => {
+        const text = chatText.value;
+        const mode = pickMode();
+        const goal = document.getElementById('goal').value;
+
+        if (!text.trim()) {
+          status.textContent = 'Plak eerst een chatbericht om te kunnen genereren.';
+          return;
+        }
+
+        const out = templates(mode, goal, text);
+        renderReplies(out, mode);
+        status.textContent = 'Klaar! Kies je favoriet en klik op Copy.';
+      });
+
+      clearBtn.addEventListener('click', () => {
+        chatText.value = '';
+        results.innerHTML = '';
+        status.textContent = '';
+      });
+
+      results.addEventListener('click', (e) => {
+        if (e.target.matches('button[data-copy]')) {
+          const text = decodeURIComponent(e.target.getAttribute('data-copy'));
+          navigator.clipboard.writeText(text).then(() => {
+            status.textContent = 'Reply gekopieerd ✅';
+          });
+        }
+      });
+    </script>
   </body>
-
-
-
-
-
 </html>
